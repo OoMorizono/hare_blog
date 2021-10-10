@@ -7,7 +7,6 @@ use App\Http\Requests\PostRequest;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
 class PostController extends Controller
 {
     /**
@@ -79,7 +78,9 @@ class PostController extends Controller
      */
     public function show(post $post)
     {
-        return view('posts.show', compact('post'));
+        $comments = $post->comments()->latest()->get()->load(['user']);
+
+        return view('posts.show', compact('post', 'comments'));
     }
 
     /**
